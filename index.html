@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reyna Querque | AI Automation Builder</title>
+<meta name="description" content="n8n automations for US and UK small businesses, drawn first, tested under load, with a human in the loop where it matters.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Khand:wght@500;700&family=Arimo:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: oklch(0.975 0.008 230);
+    --grid: oklch(0.86 0.03 235 / 0.45);
+    --ink: oklch(0.27 0.06 255);
+    --muted: oklch(0.48 0.04 250);
+    --redline: oklch(0.58 0.2 28);
+    --card: oklch(0.99 0.004 230);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Arimo",system-ui,sans-serif;font-size:17px;line-height:1.6;color:var(--ink);
+    background-color:var(--paper);
+    background-image:
+      linear-gradient(var(--grid) 1px,transparent 1px),
+      linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:28px 28px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  h1,h2,h3,.label{font-family:"Khand",sans-serif;font-weight:700;letter-spacing:.01em}
+  a{color:inherit}
+
+  /* title block, like the corner of a drawing sheet */
+  header{padding:28px 0}
+  .titleblock{display:flex;justify-content:space-between;align-items:center;border:2px solid var(--ink);background:var(--card);padding:10px 16px}
+  .titleblock .name{font-family:"Khand";font-weight:700;font-size:22px;text-transform:uppercase;letter-spacing:.08em}
+  .titleblock nav a{font-size:15px;margin-left:20px;text-decoration:none;color:var(--muted)}
+  .titleblock nav a:hover{color:var(--redline)}
+
+  .hero{padding:72px 0 64px}
+  .hero .label{color:var(--redline);font-size:18px;text-transform:uppercase;letter-spacing:.14em}
+  .hero h1{font-size:clamp(52px,9vw,112px);line-height:.92;text-transform:uppercase;margin:12px 0 24px;max-width:12ch}
+  .hero h1 em{font-style:normal;color:var(--redline)}
+  .hero p{font-size:20px;max-width:34ch;color:var(--muted)}
+  .cta{display:inline-block;margin-top:32px;padding:14px 26px;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:600;border:2px solid var(--ink)}
+  .cta:hover{background:var(--redline);border-color:var(--redline)}
+
+  section{padding:56px 0}
+  h2{font-size:44px;text-transform:uppercase;line-height:1;margin-bottom:8px}
+  .sub{color:var(--muted);margin-bottom:32px;max-width:52ch}
+
+  /* the story model as a section drawing */
+  .beats{display:grid;grid-template-columns:repeat(7,1fr);border:2px solid var(--ink);background:var(--card)}
+  .beat{padding:18px 14px;border-right:1px dashed var(--ink);position:relative}
+  .beat:last-child{border-right:none}
+  .beat .n{font-family:"Khand";font-size:15px;color:var(--redline)}
+  .beat h3{font-size:24px;text-transform:uppercase;line-height:1.05;margin:4px 0 6px}
+  .beat p{font-size:15px;color:var(--muted);line-height:1.4}
+
+  .case{border:2px solid var(--ink);background:var(--card);display:grid;grid-template-columns:1.3fr 1fr}
+  .case .main{padding:32px;border-right:2px solid var(--ink)}
+  .badge{display:inline-block;font-size:14px;font-weight:600;padding:3px 10px;border:1.5px solid var(--redline);color:var(--redline);margin-bottom:14px}
+  .case h3{font-size:40px;text-transform:uppercase;line-height:1}
+  .case .main p{margin-top:14px;max-width:46ch}
+  .facts{padding:32px;display:flex;flex-direction:column;gap:20px}
+  .fact b{display:block;font-family:"Khand";font-size:40px;line-height:1}
+  .fact span{font-size:15px;color:var(--muted)}
+  .stack{margin-top:22px;font-size:15px;color:var(--muted)}
+  .note{font-size:14px;color:var(--muted);margin-top:14px;font-style:italic}
+  .soon{margin-top:20px;font-size:16px;color:var(--muted)}
+
+  .about{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+  .about p{max-width:46ch}
+  .about p + p{margin-top:14px}
+
+  footer{border-top:2px solid var(--ink);padding:40px 0 56px;margin-top:40px}
+  footer h2{margin-bottom:16px}
+  footer a.mail{font-family:"Khand";font-weight:700;font-size:clamp(28px,5vw,48px);text-decoration:none;border-bottom:3px solid var(--redline)}
+  footer .links{margin-top:18px;color:var(--muted);font-size:15px}
+
+  @media (max-width:860px){
+    .beats{grid-template-columns:1fr 1fr}
+    .beat{border-right:none;border-bottom:1px dashed var(--ink)}
+    .case,.about{grid-template-columns:1fr}
+    .case .main{border-right:none;border-bottom:2px solid var(--ink)}
+    .titleblock nav{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="titleblock">
+      <span class="name">Reyna Querque</span>
+      <nav><a href="#method">Method</a><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="label">AI automation builder · n8n</div>
+    <h1>Workflows built like <em>buildings.</em></h1>
+    <p>Automations for US and UK small businesses. Drawn first, tested under load, with a person in the loop where it matters.</p>
+    <a class="cta" href="#contact">Talk about your workflow</a>
+  </div>
+
+  <section id="method">
+    <h2>How I build</h2>
+    <p class="sub">Every workflow tells the same story. I plan all seven parts before touching a single node.</p>
+    <div class="beats">
+      <div class="beat"><div class="n">01</div><h3>Trigger</h3><p>What starts it</p></div>
+      <div class="beat"><div class="n">02</div><h3>Data</h3><p>What it needs</p></div>
+      <div class="beat"><div class="n">03</div><h3>Logic</h3><p>What the rules are</p></div>
+      <div class="beat"><div class="n">04</div><h3>Action</h3><p>What gets done</p></div>
+      <div class="beat"><div class="n">05</div><h3>Approval</h3><p>When a person decides</p></div>
+      <div class="beat"><div class="n">06</div><h3>Plot twist</h3><p>What happens when it fails</p></div>
+      <div class="beat"><div class="n">07</div><h3>Ending</h3><p>Where the result lands</p></div>
+    </div>
+  </section>
+
+  <section id="work">
+    <h2>Work</h2>
+    <p class="sub">Demo builds on realistic data. Each one is tested against the messy cases, not just the happy path.</p>
+    <div class="case">
+      <div class="main">
+        <span class="badge">In progress</span>
+        <h3>Dead lead reactivation</h3>
+        <p>Turns a home services company's old quotes and past customers into real two-way conversations. One personal email per lead, never a blast. Replies get read, sorted, and answered, or handed to a person.</p>
+        <div class="stack">n8n · local AI model (Qwen 2.5) · Google Sheets · Gmail</div>
+        <div class="note">Demo business and lead data are invented.</div>
+      </div>
+      <div class="facts">
+        <div class="fact"><b>6 checks</b><span>every AI email must pass before it sends</span></div>
+        <div class="fact"><b>0 emails</b><span>sent to a lead without consent</span></div>
+        <div class="fact"><b>5 reply types</b><span>interested, question, not now, stop, upset</span></div>
+      </div>
+    </div>
+    <p class="soon">More builds in progress: missed-call AI receptionist, invoice chasing, contract review, and more.</p>
+  </section>
+
+  <section id="about">
+    <div class="about">
+      <h2>Why my builds handle real customers</h2>
+      <div>
+        <p>Before automation, I spent 3+ years in customer support and content moderation. I know what angry, confused, and in-a-hurry customers actually send.</p>
+        <p>So every build I make answers only from approved facts, routes anything risky to a person, and logs everything so nothing quietly disappears.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <h2>Let's map your workflow</h2>
+    <a class="mail" href="mailto:reyna.querque@gmail.com">reyna.querque@gmail.com</a>
+    <div class="links"><a href="https://linkedin.com/in/reynaquerque">LinkedIn</a> · Based in the Philippines, working with US and UK teams</div>
+  </footer>
+</div>
+</body>
+</html>
