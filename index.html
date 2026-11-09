@@ -3,156 +3,442 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reyna Querque | AI Automation Builder</title>
-<meta name="description" content="n8n automations for US and UK small businesses, drawn first, tested under load, with a human in the loop where it matters.">
+<title>Reyna Querque | AI Automation for Service Businesses</title>
+<meta name="description" content="n8n automations for US and UK service businesses. Drawn first, tested on messy cases, with a person in the loop where it matters.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Khand:wght@500;700&family=Arimo:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper: oklch(0.975 0.008 230);
-    --grid: oklch(0.86 0.03 235 / 0.45);
-    --ink: oklch(0.27 0.06 255);
-    --muted: oklch(0.48 0.04 250);
-    --redline: oklch(0.58 0.2 28);
-    --card: oklch(0.99 0.004 230);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{
-    font-family:"Arimo",system-ui,sans-serif;font-size:17px;line-height:1.6;color:var(--ink);
-    background-color:var(--paper);
-    background-image:
-      linear-gradient(var(--grid) 1px,transparent 1px),
-      linear-gradient(90deg,var(--grid) 1px,transparent 1px);
-    background-size:28px 28px;
-  }
-  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-  h1,h2,h3,.label{font-family:"Khand",sans-serif;font-weight:700;letter-spacing:.01em}
-  a{color:inherit}
+/* ============ DESIGN SYSTEM ============
+   Concept: an architect's drawing set. Paper, blueprint ink, one red markup pen.
+   60% paper · 30% ink · 10% redline (actions + highlights only)
+   Type: Archivo (wide, heavy) for title-block headlines, Archivo for body,
+         IBM Plex Mono for drawing annotations (labels, numbers). */
+:root{
+  --paper: oklch(0.975 0.007 240);
+  --paper-2: oklch(0.955 0.01 240);
+  --grid: oklch(0.86 0.03 245 / 0.42);
+  --ink: oklch(0.27 0.075 258);
+  --ink-soft: oklch(0.46 0.045 255);
+  --line: oklch(0.27 0.075 258 / 0.18);
+  --redline: oklch(0.6 0.19 32);
+  --card: oklch(0.99 0.004 240);
+  --blueprint: oklch(0.3 0.09 258);
+  --blueprint-grid: oklch(0.85 0.04 245 / 0.10);
+  --on-blueprint: oklch(0.96 0.01 240);
+  --display: "Archivo", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--display);font-size:17px;line-height:1.6;color:var(--ink);background:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:32px 32px;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.label{font-family:var(--mono);font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--redline)}
+h1,h2,h3{font-family:var(--display);font-weight:800;font-stretch:118%;line-height:1;letter-spacing:-.01em}
+h2{font-size:clamp(34px,4.6vw,56px);margin:10px 0 14px}
+.lead{font-size:19px;color:var(--ink-soft);max-width:44ch}
+section{padding:96px 0}
+.btn{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:16px;text-decoration:none;padding:15px 24px;border:2px solid var(--ink);transition:transform .2s ease,background .2s ease,color .2s ease}
+.btn-primary{background:var(--redline);border-color:var(--redline);color:oklch(0.99 0.005 30)}
+.btn-primary:hover{transform:translateY(-2px);background:oklch(0.55 0.19 32);border-color:oklch(0.55 0.19 32)}
+.btn-ghost{background:transparent}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
 
-  /* title block, like the corner of a drawing sheet */
-  header{padding:28px 0}
-  .titleblock{display:flex;justify-content:space-between;align-items:center;border:2px solid var(--ink);background:var(--card);padding:10px 16px}
-  .titleblock .name{font-family:"Khand";font-weight:700;font-size:22px;text-transform:uppercase;letter-spacing:.08em}
-  .titleblock nav a{font-size:15px;margin-left:20px;text-decoration:none;color:var(--muted)}
-  .titleblock nav a:hover{color:var(--redline)}
+/* ---------- title block header ---------- */
+header{position:sticky;top:0;z-index:20;padding:14px 0;background:oklch(0.975 0.007 240 / .86);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.tb{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.mark{width:34px;height:34px;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--mono);font-weight:500;font-size:14px}
+.brand b{font-weight:800;font-stretch:118%;font-size:17px;letter-spacing:.04em;text-transform:uppercase}
+nav{display:flex;align-items:center;gap:26px}
+nav a{text-decoration:none;font-size:15px;color:var(--ink-soft)}
+nav a:hover{color:var(--redline)}
+nav .btn{padding:10px 16px;font-size:15px}
 
-  .hero{padding:72px 0 64px}
-  .hero .label{color:var(--redline);font-size:18px;text-transform:uppercase;letter-spacing:.14em}
-  .hero h1{font-size:clamp(52px,9vw,112px);line-height:.92;text-transform:uppercase;margin:12px 0 24px;max-width:12ch}
-  .hero h1 em{font-style:normal;color:var(--redline)}
-  .hero p{font-size:20px;max-width:34ch;color:var(--muted)}
-  .cta{display:inline-block;margin-top:32px;padding:14px 26px;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:600;border:2px solid var(--ink)}
-  .cta:hover{background:var(--redline);border-color:var(--redline)}
+/* ---------- hero ---------- */
+.hero{padding:96px 0 72px}
+.hero h1{font-size:clamp(46px,8.4vw,108px);text-transform:uppercase;margin:18px 0 26px;max-width:11ch}
+.hero h1 em{font-style:normal;color:var(--redline)}
+.hero .lead{font-size:21px}
+.hero .ctas{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px}
 
-  section{padding:56px 0}
-  h2{font-size:44px;text-transform:uppercase;line-height:1;margin-bottom:8px}
-  .sub{color:var(--muted);margin-bottom:32px;max-width:52ch}
+/* signature: the story model as a live section drawing */
+.flow{margin-top:80px;border:2px solid var(--ink);background:var(--card);position:relative}
+.flow-head{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid var(--line)}
+.flow-head span{font-family:var(--mono);font-size:14px;color:var(--ink-soft)}
+.beats{display:grid;grid-template-columns:repeat(7,1fr);position:relative}
+.track{position:absolute;left:7%;right:7%;top:47px;height:2px;background:repeating-linear-gradient(90deg,var(--ink) 0 8px,transparent 8px 14px);opacity:.35}
+.pulse{position:absolute;top:41px;left:7%;width:14px;height:14px;border-radius:50%;background:var(--redline);box-shadow:0 0 0 6px oklch(0.6 0.19 32 / .15);animation:travel 9s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes travel{0%{left:7%}92%{left:calc(93% - 14px)}100%{left:calc(93% - 14px);opacity:0}}
+.beat{padding:28px 10px 24px;text-align:center;position:relative}
+.node{width:40px;height:40px;margin:0 auto 14px;border:2px solid var(--ink);background:var(--card);display:grid;place-items:center;font-family:var(--mono);font-size:14px;position:relative;z-index:1;animation:light 9s infinite}
+.beat h3{font-size:19px;font-stretch:110%;font-weight:750;text-transform:uppercase}
+.beat p{font-size:14px;color:var(--ink-soft);line-height:1.35;margin-top:4px}
+@keyframes light{0%,100%{border-color:var(--ink);color:var(--ink)}6%,14%{border-color:var(--redline);color:var(--redline);box-shadow:0 0 0 4px oklch(0.6 0.19 32 / .12)}22%{border-color:var(--ink);color:var(--ink);box-shadow:none}}
+.beat:nth-child(3) .node{animation-delay:0s}
+.beat:nth-child(4) .node{animation-delay:1.33s}
+.beat:nth-child(5) .node{animation-delay:2.66s}
+.beat:nth-child(6) .node{animation-delay:3.99s}
+.beat:nth-child(7) .node{animation-delay:5.32s}
+.beat:nth-child(8) .node{animation-delay:6.65s}
+.beat:nth-child(9) .node{animation-delay:7.98s}
 
-  /* the story model as a section drawing */
-  .beats{display:grid;grid-template-columns:repeat(7,1fr);border:2px solid var(--ink);background:var(--card)}
-  .beat{padding:18px 14px;border-right:1px dashed var(--ink);position:relative}
-  .beat:last-child{border-right:none}
-  .beat .n{font-family:"Khand";font-size:15px;color:var(--redline)}
-  .beat h3{font-size:24px;text-transform:uppercase;line-height:1.05;margin:4px 0 6px}
-  .beat p{font-size:15px;color:var(--muted);line-height:1.4}
+/* ---------- tools marquee (blueprint band) ---------- */
+.tools{background:var(--blueprint);color:var(--on-blueprint);padding:44px 0;
+  background-image:linear-gradient(var(--blueprint-grid) 1px,transparent 1px),linear-gradient(90deg,var(--blueprint-grid) 1px,transparent 1px);background-size:32px 32px}
+.tools .label{color:oklch(0.8 0.12 40)}
+.tools p.t{font-size:22px;font-weight:700;font-stretch:112%;margin:6px 0 26px}
+.marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.belt{display:flex;gap:14px;width:max-content;animation:scroll 48s linear infinite}
+.marquee:hover .belt{animation-play-state:paused}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.chip{display:flex;align-items:center;gap:10px;padding:10px 16px;border:1px solid oklch(0.96 0.01 240 / .28);font-family:var(--mono);font-size:14px;white-space:nowrap;transition:border-color .2s}
+.chip:hover{border-color:oklch(0.8 0.12 40)}
+.chip img{width:20px;height:20px}
+.chip .glyph{width:20px;height:20px;border:1.5px solid currentColor;display:grid;place-items:center;font-size:11px}
 
-  .case{border:2px solid var(--ink);background:var(--card);display:grid;grid-template-columns:1.3fr 1fr}
-  .case .main{padding:32px;border-right:2px solid var(--ink)}
-  .badge{display:inline-block;font-size:14px;font-weight:600;padding:3px 10px;border:1.5px solid var(--redline);color:var(--redline);margin-bottom:14px}
-  .case h3{font-size:40px;text-transform:uppercase;line-height:1}
-  .case .main p{margin-top:14px;max-width:46ch}
-  .facts{padding:32px;display:flex;flex-direction:column;gap:20px}
-  .fact b{display:block;font-family:"Khand";font-size:40px;line-height:1}
-  .fact span{font-size:15px;color:var(--muted)}
-  .stack{margin-top:22px;font-size:15px;color:var(--muted)}
-  .note{font-size:14px;color:var(--muted);margin-top:14px;font-style:italic}
-  .soon{margin-top:20px;font-size:16px;color:var(--muted)}
+/* ---------- case study ---------- */
+.case-top{display:grid;grid-template-columns:1.15fr 1fr;gap:56px;align-items:end}
+.badge{display:inline-flex;gap:8px;align-items:center;font-family:var(--mono);font-size:14px;padding:5px 12px;border:1.5px solid var(--ink)}
+.badge i{width:8px;height:8px;border-radius:50%;background:oklch(0.62 0.15 150);animation:blink 2.4s ease-in-out infinite}
+@keyframes blink{50%{opacity:.25}}
+.problem{font-size:23px;font-weight:600;line-height:1.35;border-left:4px solid var(--redline);padding-left:20px}
 
-  .about{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
-  .about p{max-width:46ch}
-  .about p + p{margin-top:14px}
+.calc{margin-top:56px;border:2px solid var(--ink);background:var(--card);display:grid;grid-template-columns:repeat(3,1fr) 1.3fr}
+.calc label{display:block;padding:20px;border-right:1px solid var(--line)}
+.calc label span{display:block;font-family:var(--mono);font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+.calc input{width:100%;font:inherit;font-size:28px;font-weight:800;font-stretch:112%;color:var(--ink);background:transparent;border:0;border-bottom:2px solid var(--line);padding:4px 0;outline:none}
+.calc input:focus{border-bottom-color:var(--redline)}
+.calc .out{padding:20px;background:var(--ink);color:var(--paper);display:flex;flex-direction:column;justify-content:center}
+.calc .out span{font-family:var(--mono);font-size:14px;opacity:.75}
+.calc .out b{font-size:clamp(30px,3.4vw,42px);font-weight:850;font-stretch:118%;line-height:1.1}
+.calc-note{font-family:var(--mono);font-size:14px;color:var(--ink-soft);margin-top:10px}
 
-  footer{border-top:2px solid var(--ink);padding:40px 0 56px;margin-top:40px}
-  footer h2{margin-bottom:16px}
-  footer a.mail{font-family:"Khand";font-weight:700;font-size:clamp(28px,5vw,48px);text-decoration:none;border-bottom:3px solid var(--redline)}
-  footer .links{margin-top:18px;color:var(--muted);font-size:15px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:72px;border-top:2px solid var(--ink)}
+.step{padding:26px 26px 0 0}
+.step + .step{padding-left:26px;border-left:1px solid var(--line)}
+.step .n{font-family:var(--mono);font-size:14px;color:var(--redline)}
+.step h3{font-size:24px;font-stretch:110%;margin:8px 0 8px}
+.step p{color:var(--ink-soft)}
 
-  @media (max-width:860px){
-    .beats{grid-template-columns:1fr 1fr}
-    .beat{border-right:none;border-bottom:1px dashed var(--ink)}
-    .case,.about{grid-template-columns:1fr}
-    .case .main{border-right:none;border-bottom:2px solid var(--ink)}
-    .titleblock nav{display:none}
-  }
+.sheets{margin-top:72px;display:grid;gap:28px}
+figure.sheet{border:2px solid var(--ink);background:var(--card)}
+.sheet-img{position:relative;overflow:hidden;cursor:zoom-in;background:oklch(0.2 0.01 260)}
+.sheet-img img{width:100%;height:auto}
+.lens{position:absolute;width:220px;height:220px;border-radius:50%;border:3px solid var(--redline);box-shadow:0 10px 30px oklch(0.2 0.05 258 / .35);pointer-events:none;background-repeat:no-repeat;opacity:0;transform:scale(.9);transition:opacity .15s,transform .15s}
+.sheet-img:hover .lens{opacity:1;transform:scale(1)}
+figcaption{display:flex;justify-content:space-between;gap:16px;padding:14px 18px;border-top:2px solid var(--ink);font-size:16px}
+figcaption b{font-weight:750}
+figcaption span{font-family:var(--mono);font-size:14px;color:var(--ink-soft)}
+
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:72px}
+.panel{border:2px solid var(--ink);background:var(--card);padding:28px}
+.panel h3{font-size:24px;font-stretch:110%;margin-bottom:16px}
+.panel ul{list-style:none}
+.panel li{padding:10px 0 10px 28px;border-top:1px solid var(--line);position:relative}
+.panel li:first-child{border-top:0}
+.panel li::before{content:"";position:absolute;left:0;top:18px;width:12px;height:2px;background:var(--redline)}
+.panel p{color:var(--ink-soft)}
+.panel p + p{margin-top:12px}
+
+.tested{margin-top:28px;display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink);background:var(--card)}
+.tested div{padding:24px;border-right:1px solid var(--line)}
+.tested div:last-child{border-right:0}
+.tested b{display:block;font-size:52px;font-weight:850;font-stretch:118%;line-height:1}
+.tested span{font-size:15px;color:var(--ink-soft)}
+.demo-note{font-family:var(--mono);font-size:14px;color:var(--ink-soft);margin-top:12px}
+
+.next{margin-top:72px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.next .label{margin-right:8px}
+.next span.tag{font-family:var(--mono);font-size:14px;padding:6px 12px;border:1px dashed var(--ink-soft);color:var(--ink-soft)}
+
+/* ---------- about ---------- */
+.about{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:start}
+.about p{font-size:19px;max-width:46ch}
+.about p + p{margin-top:16px}
+
+/* ---------- booking (blueprint) ---------- */
+.book{background:var(--blueprint);color:var(--on-blueprint);
+  background-image:linear-gradient(var(--blueprint-grid) 1px,transparent 1px),linear-gradient(90deg,var(--blueprint-grid) 1px,transparent 1px);background-size:32px 32px}
+.book .label{color:oklch(0.8 0.12 40)}
+.book .lead{color:oklch(0.85 0.03 245)}
+.book-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:start}
+.book ol{list-style:none;margin-top:28px;counter-reset:s}
+.book ol li{counter-increment:s;padding:14px 0 14px 44px;border-top:1px solid oklch(0.96 0.01 240 / .2);position:relative}
+.book ol li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:14px;font-family:var(--mono);font-size:14px;color:oklch(0.8 0.12 40)}
+.cal-box{background:var(--card);color:var(--ink);border:2px solid var(--on-blueprint);min-height:640px}
+.cal-fallback{padding:28px}
+.cal-fallback p{margin-bottom:18px;color:var(--ink-soft)}
+#cal-inline{width:100%;min-height:640px;overflow:auto}
+
+footer{padding:40px 0 56px;border-top:2px solid var(--ink)}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:center}
+.foot a.mail{font-weight:800;font-stretch:118%;font-size:clamp(22px,3vw,30px);text-decoration:none;border-bottom:3px solid var(--redline)}
+.foot .meta{font-family:var(--mono);font-size:14px;color:var(--ink-soft)}
+
+/* lightbox */
+.lightbox{position:fixed;inset:0;z-index:50;background:oklch(0.15 0.03 258 / .94);display:none;overflow:auto;cursor:zoom-out}
+.lightbox.open{display:block}
+.lightbox img{max-width:none;width:auto;margin:40px auto}
+.lightbox .x{position:fixed;top:16px;right:20px;font-family:var(--mono);font-size:14px;color:var(--on-blueprint);border:1px solid currentColor;padding:6px 12px;background:transparent;cursor:pointer}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:900px){
+  nav a:not(.btn){display:none}
+  section{padding:72px 0}
+  .beats{grid-template-columns:1fr}
+  .track,.pulse{display:none}
+  .beat{display:grid;grid-template-columns:52px 1fr;text-align:left;align-items:center;padding:14px 18px;border-top:1px solid var(--line);gap:0 6px}
+  .beat .node{margin:0;grid-row:span 2}
+  .beat p{margin-top:0}
+  .case-top,.about,.book-grid,.duo{grid-template-columns:1fr;gap:28px}
+  .calc{grid-template-columns:1fr}
+  .calc label{border-right:0;border-bottom:1px solid var(--line)}
+  .steps{grid-template-columns:1fr}
+  .step,.step + .step{padding:22px 0;border-left:0;border-top:1px solid var(--line)}
+  .tested{grid-template-columns:1fr}
+  .tested div{border-right:0;border-bottom:1px solid var(--line)}
+  .lens{display:none}
+  figcaption{flex-direction:column;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="titleblock">
-      <span class="name">Reyna Querque</span>
-      <nav><a href="#method">Method</a><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
-    </div>
-  </header>
 
-  <div class="hero">
-    <div class="label">AI automation builder · n8n</div>
-    <h1>Workflows built like <em>buildings.</em></h1>
-    <p>Automations for US and UK small businesses. Drawn first, tested under load, with a person in the loop where it matters.</p>
-    <a class="cta" href="#contact">Talk about your workflow</a>
+<header>
+  <div class="wrap tb">
+    <a class="brand" href="#top"><span class="mark">RQ</span><b>Reyna Querque</b></a>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a class="btn btn-primary" href="#book">Book a call</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="label">AI automation · US &amp; UK service businesses</div>
+      <h1>Workflows built like <em>buildings.</em></h1>
+      <p class="lead">I automate the busywork that quietly loses you money. Planned first, tested on the messy cases, with you in the loop where it matters.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#book">Book a discovery call →</a>
+        <a class="btn btn-ghost" href="#work">See the work</a>
+      </div>
+
+      <div class="flow reveal" aria-label="How every workflow is planned">
+        <div class="flow-head"><span>SHEET A-01 · HOW EVERY BUILD IS PLANNED</span><span>7 PARTS</span></div>
+        <div class="beats">
+          <div class="track"></div><div class="pulse"></div>
+          <div class="beat"><div class="node">01</div><h3>Trigger</h3><p>What starts it</p></div>
+          <div class="beat"><div class="node">02</div><h3>Data</h3><p>What it needs</p></div>
+          <div class="beat"><div class="node">03</div><h3>Logic</h3><p>The rules</p></div>
+          <div class="beat"><div class="node">04</div><h3>Action</h3><p>What gets done</p></div>
+          <div class="beat"><div class="node">05</div><h3>Approval</h3><p>When you decide</p></div>
+          <div class="beat"><div class="node">06</div><h3>Plot twist</h3><p>When it fails</p></div>
+          <div class="beat"><div class="node">07</div><h3>Ending</h3><p>Where it lands</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tools">
+    <div class="wrap">
+      <div class="label">Plugs into</div>
+      <p class="t">The tools your business already runs on.</p>
+    </div>
+    <div class="marquee"><div class="belt" id="belt"></div></div>
   </div>
 
-  <section id="method">
-    <h2>How I build</h2>
-    <p class="sub">Every workflow tells the same story. I plan all seven parts before touching a single node.</p>
-    <div class="beats">
-      <div class="beat"><div class="n">01</div><h3>Trigger</h3><p>What starts it</p></div>
-      <div class="beat"><div class="n">02</div><h3>Data</h3><p>What it needs</p></div>
-      <div class="beat"><div class="n">03</div><h3>Logic</h3><p>What the rules are</p></div>
-      <div class="beat"><div class="n">04</div><h3>Action</h3><p>What gets done</p></div>
-      <div class="beat"><div class="n">05</div><h3>Approval</h3><p>When a person decides</p></div>
-      <div class="beat"><div class="n">06</div><h3>Plot twist</h3><p>What happens when it fails</p></div>
-      <div class="beat"><div class="n">07</div><h3>Ending</h3><p>Where the result lands</p></div>
-    </div>
-  </section>
-
   <section id="work">
-    <h2>Work</h2>
-    <p class="sub">Demo builds on realistic data. Each one is tested against the messy cases, not just the happy path.</p>
-    <div class="case">
-      <div class="main">
-        <span class="badge">In progress</span>
-        <h3>Dead lead reactivation</h3>
-        <p>Turns a home services company's old quotes and past customers into real two-way conversations. One personal email per lead, never a blast. Replies get read, sorted, and answered, or handed to a person.</p>
-        <div class="stack">n8n · local AI model (Qwen 2.5) · Google Sheets · Gmail</div>
-        <div class="note">Demo business and lead data are invented.</div>
+    <div class="wrap">
+      <div class="case-top">
+        <div>
+          <span class="badge"><i></i>Project 01 · Running live on demo data</span>
+          <h2>Turn old quotes into booked jobs.</h2>
+          <p class="lead">For home service businesses with a list of past quotes and customers who went quiet.</p>
+        </div>
+        <p class="problem">You already paid to get these leads. Most of them never hear from you again.</p>
       </div>
-      <div class="facts">
-        <div class="fact"><b>6 checks</b><span>every AI email must pass before it sends</span></div>
-        <div class="fact"><b>0 emails</b><span>sent to a lead without consent</span></div>
-        <div class="fact"><b>5 reply types</b><span>interested, question, not now, stop, upset</span></div>
+
+      <div class="calc reveal" aria-label="Old lead value calculator">
+        <label><span>Old leads on your list</span><input id="c-leads" type="number" min="0" inputmode="numeric" placeholder="400"></label>
+        <label><span>Average job value ($)</span><input id="c-value" type="number" min="0" inputmode="numeric" placeholder="650"></label>
+        <label><span>% you think might come back</span><input id="c-rate" type="number" min="0" max="100" inputmode="decimal" placeholder="?"></label>
+        <div class="out"><span>Sitting in your old leads</span><b id="c-out">$ —</b></div>
+      </div>
+      <p class="calc-note">Your numbers, your estimate. Nothing is stored.</p>
+
+      <div class="steps reveal">
+        <div class="step"><div class="n">STEP 01</div><h3>It writes to each lead personally.</h3><p>One email at a time. Never a blast.</p></div>
+        <div class="step"><div class="n">STEP 02</div><h3>It reads every reply.</h3><p>Interested? Your booking link. A question? Answered from your approved info. "Stop"? Never emailed again.</p></div>
+        <div class="step"><div class="n">STEP 03</div><h3>You see it all in one place.</h3><p>Who replied, what they said, who booked.</p></div>
+      </div>
+
+      <!-- DEMO VIDEO: when the video is ready, replace this comment with:
+      <figure class="sheet reveal" style="margin-top:72px"><video controls preload="metadata" style="width:100%;display:block" src="demo.mp4"></video><figcaption><b>Watch it run</b><span>90 SEC</span></figcaption></figure>
+      -->
+
+      <div class="sheets">
+        <figure class="sheet reveal">
+          <div class="sheet-img" data-zoom><img src="dbr01-sending.png" alt="n8n workflow that sends one personal email per old lead, with automatic safety checks" loading="lazy"><div class="lens"></div></div>
+          <figcaption><b>Sends the emails</b><span>SHEET 01 · HOVER TO MAGNIFY · CLICK TO ENLARGE</span></figcaption>
+        </figure>
+        <figure class="sheet reveal">
+          <div class="sheet-img" data-zoom><img src="dbr02-replies.png" alt="n8n workflow that reads replies, sorts them, and takes the right next step" loading="lazy"><div class="lens"></div></div>
+          <figcaption><b>Handles the replies, every minute, on its own</b><span>SHEET 02 · HOVER TO MAGNIFY · CLICK TO ENLARGE</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="duo">
+        <div class="panel reveal">
+          <h3>You stay in control</h3>
+          <ul>
+            <li>Anything unclear or upset comes to you, not the AI.</li>
+            <li>It only says what you've approved. No made-up prices or promises.</li>
+            <li>Nobody gets emailed twice, or without permission.</li>
+          </ul>
+        </div>
+        <div class="panel reveal">
+          <h3>Works with what you have</h3>
+          <p>Leads from HighLevel, Jobber, HubSpot, or a simple spreadsheet. Emails from your own Gmail or Outlook.</p>
+          <p>Using something else? If it can export a contact list, this works with it.</p>
+        </div>
+      </div>
+
+      <div class="tested reveal">
+        <div><b>25</b><span>demo leads tested</span></div>
+        <div><b>6</b><span>checks on every email before it sends</span></div>
+        <div><b>5</b><span>kinds of replies handled</span></div>
+      </div>
+      <p class="demo-note">Demo business and data are invented for testing. Built with n8n and an AI model.</p>
+
+      <div class="next">
+        <span class="label">On the drawing board</span>
+        <span class="tag">Missed-call AI receptionist</span>
+        <span class="tag">Unpaid invoice follow-up</span>
+        <span class="tag">Sales call review</span>
+        <span class="tag">Contract red-flag check</span>
       </div>
     </div>
-    <p class="soon">More builds in progress: missed-call AI receptionist, invoice chasing, contract review, and more.</p>
   </section>
 
-  <section id="about">
-    <div class="about">
-      <h2>Why my builds handle real customers</h2>
+  <section id="about" style="padding-top:24px">
+    <div class="wrap about">
       <div>
-        <p>Before automation, I spent 3+ years in customer support and content moderation. I know what angry, confused, and in-a-hurry customers actually send.</p>
-        <p>So every build I make answers only from approved facts, routes anything risky to a person, and logs everything so nothing quietly disappears.</p>
+        <div class="label">About</div>
+        <h2>Built by someone who's answered the angry emails.</h2>
+      </div>
+      <div class="reveal">
+        <p>Before automation, I spent 3+ years in customer support and content moderation. I know what confused, upset and in-a-hurry customers actually send.</p>
+        <p>So my builds answer only from approved facts, hand anything risky to a person, and log every step, so nothing quietly disappears.</p>
       </div>
     </div>
   </section>
 
-  <footer id="contact">
-    <h2>Let's map your workflow</h2>
+  <section id="book" class="book">
+    <div class="wrap book-grid">
+      <div>
+        <div class="label">Book a call</div>
+        <h2>See what your busywork is costing you.</h2>
+        <p class="lead">30 minutes. Bring one process that eats your week. You'll leave knowing what can be automated, and what shouldn't be.</p>
+        <ol>
+          <li>Pick a time that suits your time zone.</li>
+          <li>Answer a few quick questions about your business.</li>
+          <li>We walk through your workflow on the call.</li>
+        </ol>
+      </div>
+      <div class="cal-box">
+        <div id="cal-inline">
+          <div class="cal-fallback">
+            <p>Loading the calendar…</p>
+            <a class="btn btn-primary" id="cal-link" href="#">Open the booking page →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
     <a class="mail" href="mailto:reyna.querque@gmail.com">reyna.querque@gmail.com</a>
-    <div class="links"><a href="https://linkedin.com/in/reynaquerque">LinkedIn</a> · Based in the Philippines, working with US and UK teams</div>
-  </footer>
-</div>
+    <div class="meta"><a href="https://linkedin.com/in/reynaquerque">LinkedIn</a> · Based in the Philippines · Working with US &amp; UK teams</div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-label="Enlarged workflow"><button class="x" type="button">CLOSE ✕</button><img alt=""></div>
+
+<script>
+/* ===== EDIT THIS ONE LINE: your Cal.com link (the part after cal.com/) ===== */
+const CAL_LINK = "reynaquerque/discovery-call";
+
+/* tools belt: icon slug (Simple Icons) or "" for a text-only chip */
+const TOOLS = [
+  ["n8n","n8n"],["Gmail","gmail"],["Google Sheets","googlesheets"],["Google Calendar","googlecalendar"],
+  ["Outlook",""],["HubSpot","hubspot"],["HighLevel",""],["Jobber",""],["QuickBooks","quickbooks"],
+  ["Xero","xero"],["Stripe","stripe"],["Twilio","twilio"],["Shopify","shopify"],["Calendly","calendly"],
+  ["Notion","notion"],["Airtable","airtable"],["Slack","slack"],["Ollama","ollama"],["Deepgram",""]
+];
+const belt = document.getElementById("belt");
+const chips = TOOLS.map(([name,slug]) => {
+  const icon = slug
+    ? `<img src="https://cdn.simpleicons.org/${slug}/f2f4f8" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'glyph',textContent:'${name[0]}'}))">`
+    : `<span class="glyph">${name[0]}</span>`;
+  return `<span class="chip">${icon}${name}</span>`;
+}).join("");
+belt.innerHTML = chips + chips; /* doubled for a seamless loop */
+
+/* calculator */
+const $ = id => document.getElementById(id);
+function calc(){
+  const l = +$("c-leads").value, v = +$("c-value").value, r = +$("c-rate").value;
+  $("c-out").textContent = (l && v && r) ? "$" + Math.round(l * v * r / 100).toLocaleString("en-US") : "$ —";
+}
+["c-leads","c-value","c-rate"].forEach(id => $(id).addEventListener("input", calc));
+
+/* magnifier + lightbox */
+const finePointer = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+const lb = $("lightbox"), lbImg = lb.querySelector("img");
+document.querySelectorAll("[data-zoom]").forEach(box => {
+  const img = box.querySelector("img"), lens = box.querySelector(".lens"), Z = 2.4;
+  if (finePointer) {
+    box.addEventListener("mousemove", e => {
+      const r = box.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+      const w = lens.offsetWidth / 2;
+      lens.style.left = (x - w) + "px"; lens.style.top = (y - w) + "px";
+      lens.style.backgroundImage = `url("${img.src}")`;
+      lens.style.backgroundSize = (r.width * Z) + "px " + (r.height * Z) + "px";
+      lens.style.backgroundPosition = `${-(x * Z - w)}px ${-(y * Z - w)}px`;
+    });
+  }
+  box.addEventListener("click", () => { lbImg.src = img.src; lbImg.alt = img.alt; lb.classList.add("open"); });
+});
+lb.addEventListener("click", () => lb.classList.remove("open"));
+document.addEventListener("keydown", e => { if (e.key === "Escape") lb.classList.remove("open"); });
+
+/* reveal on scroll */
+const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }), {threshold:.12});
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+/* Cal.com inline embed (official loader pattern) */
+$("cal-link").href = "https://cal.com/" + CAL_LINK;
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init", { origin: "https://cal.com" });
+Cal("inline", { elementOrSelector: "#cal-inline", calLink: CAL_LINK, layout: "month_view" });
+Cal("ui", { theme: "light", hideEventTypeDetails: false, layout: "month_view" });
+</script>
 </body>
 </html>
